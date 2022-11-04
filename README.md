@@ -1,7 +1,24 @@
 # VeloMax
 BDD et interopérabilité Avril 2022
 
+# Set the correct connection string in AffichageVeloMax.xaml.cs
+
+```ruby
+namespace VELOMAX
+{
+    /// <summary>
+    /// Logique d'interaction pour AffichageVeloMax.xaml
+    /// </summary>
+    public partial class AffichageVeloMax : Window
+    {
+        public AffichageVeloMax()
+        {
+            InitializeComponent();
+            customizeDesign();
+        }
+
+        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=userID;PASSWORD=password;";
 ```
-In AffichageVeloMax.xaml.cs
-change uid=userID and pwd=password with yours
-```
+
+Be sure to change with your own user ```UID``` and ```PASSWORD```
+
