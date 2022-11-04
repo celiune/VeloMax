@@ -17,7 +17,7 @@ namespace VELOMAX
             loadGril();
         }
 
-        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=root;PASSWORD=MySQLmdp.123;";
+        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=userID;PASSWORD=password;";
 
         public void loadGril()
         {
