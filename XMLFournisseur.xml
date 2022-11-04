@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <fournisseur>
+    <siret>F05</siret>
+    <nom_entreprise>Carrefour</nom_entreprise>
+    <contact_fournisseur>7856941203</contact_fournisseur>
+    <note>1</note>
+    <id_adresse>15</id_adresse>
+  </fournisseur>
+  <fournisseur>
+    <siret>F04</siret>
+    <nom_entreprise>Décathlon</nom_entreprise>
+    <contact_fournisseur>3216549870</contact_fournisseur>
+    <note>4</note>
+    <id_adresse>14</id_adresse>
+  </fournisseur>
+  <fournisseur>
+    <siret>F03</siret>
+    <nom_entreprise>Conforama</nom_entreprise>
+    <contact_fournisseur>8529637410</contact_fournisseur>
+    <note>3</note>
+    <id_adresse>13</id_adresse>
+  </fournisseur>
+  <fournisseur>
+    <siret>F02</siret>
+    <nom_entreprise>Pièces par Milliers</nom_entreprise>
+    <contact_fournisseur>9516234870</contact_fournisseur>
+    <note>2</note>
+    <id_adresse>12</id_adresse>
+  </fournisseur>
+  <fournisseur>
+    <siret>F01</siret>
+    <nom_entreprise>Dépanneur EXPRESS</nom_entreprise>
+    <contact_fournisseur>8527419630</contact_fournisseur>
+    <note>5</note>
+    <id_adresse>11</id_adresse>
+  </fournisseur>
+</NewDataSet>
