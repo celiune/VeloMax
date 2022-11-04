@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VELOMAX.MVVM.ViewModel
 {
-    class BoutiqueModel
+    class FournisseurModel
     {
     }
 }
