@@ -19,7 +19,7 @@ namespace VELOMAX
             customizeDesign();
         }
 
-        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=root;PASSWORD=MySQLmdp.123;";
+        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=userID;PASSWORD=password;";
 
         private void customizeDesign() // pour cacher les sous-menu des stackpanels 
         {
