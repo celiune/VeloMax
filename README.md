@@ -31,3 +31,8 @@ namespace VELOMAX
 
 Be sure to change with your own user ```UID``` and ```PASSWORD```
 
+# Start the project
+![image](https://user-images.githubusercontent.com/112829689/200072019-b2c65957-413e-4e45-86da-83fafab269a0.png)
+
+Identifiant = root
+Mot de passe = root
