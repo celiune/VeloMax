@@ -2,25 +2,15 @@
 BDD et interopérabilité Avril 2022
 
 ## Set the correct connection string in 
-```
-AffichageVeloMax.xaml.cs
-```
+```AffichageVeloMax.xaml.cs```
 
-```
-BicycletteAffichage.xaml.cs
-```
+```BicycletteAffichage.xaml.cs```
 
-```
-BoutiqueAffichage.xaml.cs
-```
+```BoutiqueAffichage.xaml.cs```
 
-```
-IndividuAffichage.xaml.cs
-```
+```IndividuAffichage.xaml.cs```
 
-```
-PieceAffichage.xaml.cs
-```
+```PieceAffichage.xaml.cs```
 
 ```ruby
 namespace VELOMAX
