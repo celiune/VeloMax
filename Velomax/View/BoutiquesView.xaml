@@ -1,275 +1,70 @@
-using System.Windows.Controls;
-using MySql.Data.MySqlClient;
-using System.Data;
-using System.Windows;
-
-namespace VELOMAX.MVVM.View
-{
-    /// <summary>
-    /// Logique d'interaction pour BoutiquesView.xaml
-    /// </summary>
-    public partial class BoutiquesView : UserControl
-    {
-        public BoutiquesView()
-        {
-            InitializeComponent();
-            loadGril();
-            loadIdAdresse();
-        }
-        string connectionString = @"SERVER=localhost;PORT=3306;DATABASE=velomax;UID=root;PASSWORD=MySQLmdp.123;";
-
-        public void loadGril()
-        {
-            MySqlConnection connexion = new MySqlConnection(connectionString);
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM boutique NATURAL JOIN adresse", connexion);
-            connexion.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connexion.Close();
-            BoutiqueDatagrid.DataContext = dt;
-        }
-
-        public void loadIdAdresse()
-        {
-            MySqlConnection connexion = new MySqlConnection(connectionString);
-            MySqlCommand cmd = new MySqlCommand("SELECT max(id_adresse) FROM adresse", connexion);
-            connexion.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connexion.Close();
-            IdAdresseDatagrid.DataContext = dt;
-        }
-
-        public void clearData()
-        {
-            txtIdBoutique.Clear();
-            txtNomContact.Clear();
-            txtRemise.Clear();
-            txtTelephone.Clear();
-            txtCourriel.Clear();
-            txtIdAdresseBTQ.Clear();
-            txtRegionBTQ.Clear();
-            txtVilleBTQ.Clear();
-            txtCodePostalBTQ.Clear();
-            txtRueBTQ.Clear();
-        }
-
-        public bool isValid()
-        {
-            if(txtIdBoutique.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir l'ID boutique", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtNomContact.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir le nom du contact boutique", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtTelephone.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir le numéro de téléphone de la boutique", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtCourriel.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir l'adresse mail de la boutique", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            
-            if (txtRueBTQ.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir un nom de rue", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtCodePostalBTQ.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir un code postal", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtVilleBTQ.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir un nom de ville", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            if (txtRegionBTQ.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir un nom de région", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            
-            if (txtIdAdresseBTQ.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir l'ID adresse de la boutique", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            if (txtRemise.Text == string.Empty)
-            {
-                MessageBox.Show("Veuillez saisir si il y a une remise", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            return true;
-        }
-
-        private void AnnulerBTQ_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            clearData();
-        }
-
-        private void AjoutBTQ_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (isValid())
-                {
-                    MySqlConnection connexion = new MySqlConnection(connectionString);
-                    connexion.Open();
-                    MySqlCommand cmd = new MySqlCommand("INSERT INTO adresse VALUES (@id_adresse, @rue, @ville, @code_postal, @region)", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.Parameters.AddWithValue("@rue", txtRueBTQ.Text);
-                    cmd.Parameters.AddWithValue("@ville", txtVilleBTQ.Text);
-                    cmd.Parameters.AddWithValue("@code_postal", txtCodePostalBTQ.Text);
-                    cmd.Parameters.AddWithValue("@region", txtRegionBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                    cmd = new MySqlCommand("INSERT INTO boutique VALUES (@id_boutique, @nom_contact_boutique, @remise, @tel_boutique, @courriel_boutique, @id_adresse)", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text);
-                    cmd.Parameters.AddWithValue("@nom_contact_boutique", txtNomContact.Text);
-                    cmd.Parameters.AddWithValue("@remise", txtRemise.Text);
-                    cmd.Parameters.AddWithValue("@tel_boutique", txtTelephone.Text);
-                    cmd.Parameters.AddWithValue("@courriel_boutique", txtCourriel.Text);
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                    connexion.Close();
-                    loadGril();
-                    loadIdAdresse();
-                    MessageBox.Show("Boutique ajoutée avec succès", "Sauvegardé", MessageBoxButton.OK, MessageBoxImage.Information);
-                    clearData();
-
-                }
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void ModifierBTQ_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                MySqlConnection connexion = new MySqlConnection(connectionString);
-                connexion.Open();
-                if (txtNomContact.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE boutique SET nom_contact_boutique = @nom_contact_boutique WHERE id_boutique = @id_boutique", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text);
-                    cmd.Parameters.AddWithValue("@nom_contact_boutique", txtNomContact.Text);
-                    cmd.ExecuteNonQuery();
-                }
-                if (txtRemise.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE boutique SET remise = @remise WHERE id_boutique = @id_boutique", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text);
-                    cmd.Parameters.AddWithValue("@remise", txtRemise.Text);
-                    cmd.ExecuteNonQuery();
-                }
-                if (txtTelephone.Text.ToString() != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE boutique SET tel_boutique = @tel_boutique WHERE id_boutique = @id_boutique", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text);
-                    cmd.Parameters.AddWithValue("@tel_boutique", txtTelephone.Text);
-                    cmd.ExecuteNonQuery();
-                }
-                if (txtCourriel.Text.ToString() != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE boutique SET courriel_boutique = @courriel_boutique WHERE id_boutique = @id_boutique", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text);
-                    cmd.Parameters.AddWithValue("@courriel_boutique", txtCourriel.Text);
-                    cmd.ExecuteNonQuery();
-                }
-                if (txtRueBTQ.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE adresse SET rue = @rue WHERE id_adresse = @id_adresse", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.Parameters.AddWithValue("@rue", txtRueBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                }
-
-                if (txtVilleBTQ.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE adresse SET ville = @ville WHERE id_adresse = @id_adresse", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.Parameters.AddWithValue("@ville", txtVilleBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                }
-
-                if (txtCodePostalBTQ.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE adresse SET code_postal = @code_postal WHERE id_adresse = @id_adresse", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.Parameters.AddWithValue("@code_postal", txtCodePostalBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                }
-
-                if (txtRegionBTQ.Text != "")
-                {
-                    MySqlCommand cmd = new MySqlCommand("UPDATE adresse SET region = @region WHERE id_adresse = @id_adresse", connexion);
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text);
-                    cmd.Parameters.AddWithValue("@region", txtRegionBTQ.Text);
-                    cmd.ExecuteNonQuery();
-                }
-                connexion.Close();
-                loadGril();
-                loadIdAdresse();
-                clearData();
-                MessageBox.Show("Boutique modifiée avec succès", "Modifiée", MessageBoxButton.OK, MessageBoxImage.Information);
+﻿<UserControl x:Class="VELOMAX.MVVM.View.BoutiquesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VELOMAX.MVVM.View"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="525" Width="690" Background="White">
+    <Grid Cursor="Arrow">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <fa:IconImage Icon="Store" Style="{StaticResource titleIcon}" Foreground="#FF1919A4"/>
+            <TextBlock Text="Clients boutiques" Style="{StaticResource titleText}" Foreground="#FF1919A4"/>
+        </StackPanel>
+        <DataGrid x:Name="IdAdresseDatagrid" ItemsSource="{Binding}" Margin="541,0,0,457" HorizontalAlignment="Left" Width="149" />
+        <DataGrid x:Name="BoutiqueDatagrid" HorizontalAlignment="Left" Width="324" ItemsSource="{Binding}" Margin="329,68,0,62"/>
+        <StackPanel Margin="10,0,0,0"  HorizontalAlignment="Left" Width="273" VerticalAlignment="Center" Height="389" Cursor="Arrow">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Store" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtIdBoutique" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Id boutique"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="IdCard" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtNomContact" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Nom Contact boutique"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Phone" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtTelephone" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Téléphone Boutique"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="MailBulk" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtCourriel" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Courriel boutique"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="MapMarkerAlt" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtRueBTQ" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Rue"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="txtCodePostalBTQ" Width="97" FontSize="12" materialDesign:HintAssist.Hint="Code Postal"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+                <TextBox x:Name="txtVilleBTQ" Width="171" FontSize="12" materialDesign:HintAssist.Hint="Ville"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="txtRegionBTQ" Width="170" FontSize="12" materialDesign:HintAssist.Hint="Région"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow" Height="47"/>
+                <TextBox x:Name="txtIdAdresseBTQ" Width="86" FontSize="12" materialDesign:HintAssist.Hint="Id adresse"
+                         BorderThickness="2" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White"  Cursor="Arrow" Height="47"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Percentage" Style="{StaticResource menuButtonIcon}" Foreground="Blue"/>
+                <TextBox x:Name="txtRemise" Width="200" FontSize="12" materialDesign:HintAssist.Hint="Remise boutique"
+                         BorderThickness="0" BorderBrush="Transparent" Style="{StaticResource MaterialDesignFilledTextBox}" Background="White" Cursor="Arrow"/>
+            </StackPanel>
+        </StackPanel>
+        <Button x:Name="AjoutBTQ" Content="Ajouter une nouvelle boutique" HorizontalAlignment="Left" Margin="20,480,0,0" VerticalAlignment="Top" Click="AjoutBTQ_Click" Background="Blue"/>
+        <Button x:Name="ModifierBTQ" Content="Modifier une boutique" HorizontalAlignment="Left" Margin="270,480,0,0" VerticalAlignment="Top" Click="ModifierBTQ_Click" Background="Blue"/>
+        <Button x:Name="SupprimerBTQ" Content="Supprimer une boutique" HorizontalAlignment="Left" Margin="470,480,0,0" VerticalAlignment="Top" Click="SupprimerBTQ_Click" Background="Blue"/>
+        <Button x:Name="AnnulerBTQ" Content="Annuler" HorizontalAlignment="Left" Margin="224,441,0,0" VerticalAlignment="Top" Width="87" Click="AnnulerBTQ_Click" Background="Blue"/>
 
 
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
-        private void SupprimerBTQ_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                MySqlConnection connexion = new MySqlConnection(connectionString);
-                connexion.Open();
-
-                MySqlCommand cmd = new MySqlCommand("DELETE FROM boutique WHERE id_boutique = @id_boutique ", connexion);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@id_boutique", txtIdBoutique.Text.ToString());
-                cmd.ExecuteNonQuery();
-                cmd = new MySqlCommand("DELETE FROM adresse WHERE id_adresse = @id_adresse ", connexion);
-                cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@id_adresse", txtIdAdresseBTQ.Text.ToString());
-                cmd.ExecuteNonQuery();
-                connexion.Close();
-                loadGril();
-                loadIdAdresse();
-                MessageBox.Show("Boutique supprimée avec succès", "Supprimée", MessageBoxButton.OK, MessageBoxImage.Information);
-                clearData();
-
-
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-    }
-}
+    </Grid>
+</UserControl>

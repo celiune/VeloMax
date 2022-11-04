@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="VELOMAX.MVVM.View.StatistiqueView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VELOMAX.MVVM.View"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="525" Width="690" 
+             Background="White">
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <fa:IconImage Icon="ChartArea" Style="{StaticResource titleIcon}" Foreground="Black"/>
+            <TextBlock Text="Statistiques" Style="{StaticResource titleText}" Foreground="Black"/>
+        </StackPanel>
+        <DataGrid x:Name="StatistiqueDatagrid" HorizontalAlignment="Left" Width="348" ItemsSource="{Binding}" Margin="24,66,0,43"/>
+        <Button x:Name="QteVenduParPieceVelo" Content="Quantité vendu par pièce/vélo"  Margin="425,66,32,427" Click="QteVenduParPieceVelo_Click" Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="ListeMembre" Content="Liste des membres Fidélio" Margin="425,117,32,376" Click="ListeMembre_Click"  Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="MeilleurClientIndQte" Content="Meilleur Client  ind qte" Margin="425,173,32,320" Click="MeilleurClientIndQte_Click"  Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="MeilleurClientBtqQte" Content="Meilleur Client btq qte" Margin="425,210,32,283" Click="MeilleurClientBtqQte_Click"  Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="MeilleurClientIndEuros" Content="Meilleur Client pièce cumul €" Margin="425,247,32,246" Click="MeilleurClientIndEuros_Click"  Background="Black" BorderBrush="Transparent"/>
+        <Button x:Name="MeilleurClientBtqEuros" Content="Meilleur Client vélo cumul €" Margin="425,284,32,209" Click="MeilleurClientBtqEuros_Click"  Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="AnalysePiece" Content="Analyse des pièces" Margin="425,339,32,154" Click="AnalysePiece_Click" Background="Black" BorderBrush="Transparent" />
+        <Button x:Name="AnalyseVelo" Content="Analyse des vélos" Margin="425,376,32,117" Click="AnalyseVelo_Click" Background="Black" BorderBrush="Transparent" />
+    </Grid>
+</UserControl>
