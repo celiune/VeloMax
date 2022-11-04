@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Table1>
+    <id_individu>I01</id_individu>
+    <nom_individu>LIU</nom_individu>
+    <prenom_individu>Céline</prenom_individu>
+    <tel_individu>0123456789</tel_individu>
+    <courriel_individu>celine@liu.fr</courriel_individu>
+    <id_adresse>1</id_adresse>
+    <num_program>1 Fidélio</num_program>
+  </Table1>
+  <Table1>
+    <id_individu>I02</id_individu>
+    <nom_individu>NEANG</nom_individu>
+    <prenom_individu>Sandrine</prenom_individu>
+    <tel_individu>7856321490</tel_individu>
+    <courriel_individu>sandrine@neang.fr</courriel_individu>
+    <id_adresse>2</id_adresse>
+    <num_program>2 Fidélio Or</num_program>
+  </Table1>
+</NewDataSet>
