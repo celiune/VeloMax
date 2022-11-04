@@ -1,7 +1,7 @@
 # VeloMax
 BDD et interopérabilité Avril 2022
 
-# Set the correct connection string in AffichageVeloMax.xaml.cs
+## Set the correct connection string in AffichageVeloMax.xaml.cs
 
 ```ruby
 namespace VELOMAX
